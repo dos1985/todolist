@@ -11,7 +11,6 @@ class UserRoles(models.TextChoices):
 
 class UserManager(BaseUserManager):
     """Функция создания пользователя — в нее мы передаем обязательные поля"""
-
     def create_user(self, email, first_name, last_name, phone, role=UserRoles.USER, password=None):
         if not email:
             raise ValueError('Users must have an email address')
@@ -28,7 +27,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, first_name, last_name, phone, role=UserRoles.ADMIN, password=None):
+    def create_superuser(self, email, username, first_name, last_name, phone, role=UserRoles.ADMIN, password=None):
         """Функция для создания суперпользователя — с ее помощью мы создаем админинстратора
         это можно сделать с помощью команды createsuperuser"""
 
