@@ -1,12 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
-from .managers import UserManager, UserRoles
-
 
 
 class User(AbstractUser):
     pass
+
     # email = models.EmailField(unique=True)
     # username = models.CharField(max_length=50)
     # phone = PhoneNumberField(max_length=20)
