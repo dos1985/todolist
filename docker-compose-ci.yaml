@@ -1,0 +1,48 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+      - name: Render docker-compose-ci.yaml
+        run: envsubst < docker-compose-ci.yaml.template > docker-compose-ci.yaml
+
+      - name: Copy docker-compose-ci.yaml to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: docker-compose-ci.yaml
+          target: /path/to/destination/docker-compose-ci.yaml
+
+      - name: Copy configuration file to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: config.yaml
+          target: /path/to/destination/config.yaml
+
+      - name: Run docker-compose up on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /path/to/destination
+            docker-compose -f docker-compose-ci.yaml up -d
