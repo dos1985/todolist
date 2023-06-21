@@ -1,0 +1,9 @@
+database:
+  host: ["*"]
+  port: 5432
+  username: "postgres_l33"
+  password: "postgres_l33"
+
+api:
+  base_url: http://localhost:8001/
+  api_key: "django-insecure-zq(54oowr00k(2!*u#84)2cr5oxwb(5@u56@=6k(jk&38%^0$o"
