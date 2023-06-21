@@ -62,7 +62,7 @@ jobs:
         with:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          password: ${{ secrets.SUDO_PASSWORD }}
           script: |
             docker-compose -f /home/deploy/docker-compose-ci.yaml/docker-compose-ci.yaml up -d
 
