@@ -39,8 +39,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
-          username: deploy
-          password: !QAZ2wsx
+          username: "deploy"
+          password: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCzLIt1sjc3/gdpEEDtMvy7tdTQqJavcYXG64mk0uj7noM0mhHvnoBQ7VvqXp7gurzCiY/2ZoDgW2MQmprXZ1U50hqOA/NIEO/6TbZnH99l4gwazUlFHolXL00gRBagqcEhW8XrAnGEbsDfnAUnNtsvTiKEzwOUUUVqOAfrkT6g3Lec6bbsNpQdyb2747bo0V0n+EK0AlKv6PloTGmqNKMWowGXeBhffHnt++bFtBZ66oqWG5MbXswVPiQ/mGc336qv2UUy7ZXXLobcf19mPM6b+kMKCx27o8Yd0BBUU+bjWw7fcnN54TlKOvF76lS/3rJMU+McvvyEHfWhC16DpjoYeoH3IUm/e6dlGZgEDMr5CVB9u+CyDY7dnFUTljpSrfwbv2iNCk50QDok1usAGjMkUeXdEA5R0MRsAOzQRhQE/+Mka4EPiyH/DwD0y7qNWtIkk0kmzmguWwnI/OP5i1JZB83Ma0FtBqBuoYW+QDMn700WVmhGP66wEfsDtBksN1k= user@DESKTOP-7MNEV8H"
           script: |
             cd /home/deploy
             docker-compose -f docker-compose-ci.yaml up -d
