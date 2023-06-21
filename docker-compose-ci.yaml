@@ -42,5 +42,4 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/deploy
-            /usr/local/bin/docker-compose -f docker-compose-ci.yaml up -d
-
+            docker-compose -f docker-compose-ci.yaml up -d
