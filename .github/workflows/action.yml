@@ -57,9 +57,11 @@ jobs:
           target: /home/deploy/config.yaml
 
       - name: Run docker-compose up on server
-        run: |
-          sudo apt-get install -y curl
-          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          cd /home/deploy
-          /usr/local/bin/docker-compose -f docker-compose-ci.yaml up -d
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /home/deploy
+            docker-compose -f docker-compose-ci.yaml up -d
