@@ -43,7 +43,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: docker-compose-ci.yaml
-          target: /path/to/destination/docker-compose-ci.yaml
+          target: /home/deploy/docker-compose-ci.yaml
 
       - name: Copy configuration file to server
         uses: appleboy/scp-action@master
@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: config.yaml
-          target: /path/to/destination/config.yaml
+          target: /home/deploy/config.yaml
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
@@ -61,5 +61,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /path/to/destination
+            cd /home/deploy/
             docker-compose -f docker-compose-ci.yaml up -d
