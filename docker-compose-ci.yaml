@@ -39,8 +39,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          username: deploy
+          password: !QAZ2wsx
           script: |
             cd /home/deploy
             docker-compose -f docker-compose-ci.yaml up -d
