@@ -27,39 +27,52 @@ jobs:
 
   deploy:
     name: Deploy Application
-    runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    on:
+      push:
+        branches:
+          - main
 
-      - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
 
-      - name: Copy docker-compose-ci.yaml to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          source: docker-compose-ci.yaml
-          target: /home/deploy/docker-compose-ci.yaml
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
 
-      - name: Copy configuration file to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          source: config.yaml
-          target: /home/deploy/config.yaml
+          - name: Install SSH client
+            run: sudo apt-get update && sudo apt-get install -y openssh-client
 
-      - name: Run docker-compose up on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            cd /home/deploy/
-            docker-compose -f docker-compose-ci.yaml up -d
+          - name: Install Docker Compose
+            run: |
+              sudo apt-get install -y docker-compose
+
+          - name: Copy docker-compose-ci.yaml to server
+            uses: appleboy/scp-action@master
+            with:
+              host: ${{ secrets.SSH_HOST }}
+              username: ${{ secrets.SSH_USERNAME }}
+              password: ${{ secrets.SSH_PASSWORD }}
+              source: docker-compose-ci.yaml
+              target: /home/deploy/docker-compose-ci.yaml
+
+          - name: Copy configuration file to server
+            uses: appleboy/scp-action@master
+            with:
+              host: ${{ secrets.SSH_HOST }}
+              username: ${{ secrets.SSH_USERNAME }}
+              password: ${{ secrets.SSH_PASSWORD }}
+              source: config.yaml
+              target: /home/deploy/config.yaml
+
+          - name: Run docker-compose up on server
+            uses: appleboy/ssh-action@master
+            with:
+              host: ${{ secrets.SSH_HOST }}
+              username: ${{ secrets.SSH_USERNAME }}
+              password: ${{ secrets.SSH_PASSWORD }}
+              script: |
+                cd /home/deploy
+                docker-compose -f docker-compose-ci.yaml up -d
+    
