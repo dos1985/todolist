@@ -1,25 +1,49 @@
-#version: '3.8'
-#
-#services:
-#  db:
-#    image: postgres:12.4-alpine
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    environment:
-#      POSTGRES_USER: postgres_l33
-#      POSTGRES_PASSWORD: postgres_l33
-#      POSTGRES_DB: postgres_l33
-#    restart: always
-#    ports:
-#      - "5432:5432"
-#
-#volumes:
-#  postgres_data:
 
-
-version: "3.9"
-
+version: '3.9'
 services:
+  api:
+    build:
+      context: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    volumes:
+      - .:/app
+    ports:
+      - '8001:8000'
+    networks:
+      - todolist_default
+
+  migrations:
+    build:
+      context: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+    volumes:
+      - .:/app
+    networks:
+      - todolist_default
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres_l33
+      POSTGRES_PASSWORD: postgres_l33
+      POSTGRES_DB: postgres_l33
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - todolist_default
+
   frontend:
     image: sermalenk/skypro-front:lesson-34
     restart: always
@@ -27,55 +51,12 @@ services:
       - "80:80"
     depends_on:
       - api
+    networks:
+      - todolist_default
 
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - .env
-    environment:
-      POSTGRES_HOST: db
-    depends_on:
-      db:
-        condition: service_healthy
-      migrations:
-        condition: service_completed_successfully
-    ports:
-      - "8000:8000"
-
-  db:
-    image: postgres:12.4-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "5433:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -D ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  migrations:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      db:
-        condition: service_healthy
-    env_file:
-      - .env
-    volumes:
-       - ./.docker_env:/todolist/.env
-    command: python manage.py migrate
+networks:
+  todolist_default:
+    driver: bridge
 
 volumes:
   pgdata:
