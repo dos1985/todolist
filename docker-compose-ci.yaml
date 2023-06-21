@@ -39,7 +39,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
-          username: "deploy"
+          username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SUDO_PASSWORD }}
           script: |
             cd /home/deploy
