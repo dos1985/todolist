@@ -41,11 +41,12 @@ jobs:
       - name: Copy docker-compose-ci.yaml to server
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          host: $$\{{ secrets.SSH_HOST }}
+          username: $$\{{ secrets.SSH_USERNAME }}
+          password: $$\{{ secrets.SSH_PASSWORD }}
           source: docker-compose-ci.yaml
           target: /home/deploy/docker-compose-ci.yaml
+
 
       - name: Copy configuration file to server
         uses: appleboy/scp-action@master
