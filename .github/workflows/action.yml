@@ -60,9 +60,9 @@ jobs:
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          host: vmr-group.kz
+          username: deploy
+          password: !QAZ2wsx
           script: |
             docker-compose -f /home/deploy/docker-compose-ci.yaml/docker-compose-ci.yaml up -d
 
