@@ -41,10 +41,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S apt-get update
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S apt-get install -y curl
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            echo "${{ secrets.SUDO_PASSWORD }}" | sudo -S chmod +x /usr/local/bin/docker-compose
             cd /home/deploy
             /usr/local/bin/docker-compose -f docker-compose-ci.yaml up -d
 
