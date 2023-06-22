@@ -20,7 +20,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
-          username: deploy
+          username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: docker-compose-ci.yaml
           target: /home/deploy/docker-compose-ci.yaml
@@ -37,8 +37,8 @@ jobs:
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: vmr-group.kz
+          username: deploy
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/deploy
