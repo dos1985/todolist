@@ -4,43 +4,43 @@ services:
     image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
-    env_file:
-      - .env
+#    env_file:
+#      - .env
     environment:
       POSTGRES_HOST: postgres
     volumes:
       - .:/app
     ports:
       - '8001:8000'
-    networks:
-      - todolist_default
+#    networks:
+#      - todolist_default
 
   migrations:
     image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
-    env_file:
-      - .env
+#    env_file:
+#      - .env
     environment:
       POSTGRES_HOST: postgres
     volumes:
       - .:/app
-    networks:
-      - todolist_default
+#    networks:
+#      - todolist_default
 
   postgres:
     image: postgres:12.4-alpine
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: postgres_l33
+      POSTGRES_PASSWORD: postgres_l33
+      POSTGRES_DB: postgres_l33
     restart: always
-    env_file:
-      - .env
+#    env_file:
+#      - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - todolist_default
+#    networks:
+#      - todolist_default
 
   frontend:
     image: sermalenk/skypro-front:lesson-34
@@ -55,6 +55,6 @@ services:
 volumes:
   pgdata:
 
-networks:
-  todolist_default:
-    driver: bridge
+#networks:
+#  todolist_default:
+#    driver: bridge
