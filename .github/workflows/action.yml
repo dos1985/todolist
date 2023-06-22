@@ -58,7 +58,7 @@ jobs:
           target: /home/deploy/config.yaml
 
       - name: Run docker-compose up on server
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/scp-action@master
         with:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
