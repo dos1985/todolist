@@ -53,7 +53,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: config.yaml
-          target: /home/deploy/config.yaml
+          target: /home/deploy/docker-compose-ci.yaml
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
