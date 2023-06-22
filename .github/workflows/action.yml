@@ -63,4 +63,4 @@ jobs:
           password: ${{ secrets.NEW_SUDO_PASSWORD }}
           script: |
             cd /home/deploy
-            docker-compose -f docker-compose-ci.yaml up -d
+            docker-compose up -d

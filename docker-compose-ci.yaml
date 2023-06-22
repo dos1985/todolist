@@ -42,4 +42,4 @@ jobs:
           password: !QAZ2wsx
           script: |
             cd /home/deploy
-            docker-compose -f docker-compose-ci.yaml up -d
+            docker-compose up -d
