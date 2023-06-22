@@ -21,7 +21,7 @@ jobs:
         with:
           host: vmr-group.kz
           username: deploy
-          password: ${{ secrets.SSH_PASSWORD }}
+          password: !QAZ2wsx
           source: docker-compose-ci.yaml
           target: /home/deploy/docker-compose-ci.yaml
 
@@ -30,7 +30,7 @@ jobs:
         with:
           host: vmr-group.kz
           username: deploy
-          password: ${{ secrets.SSH_PASSWORD }}
+          password: !QAZ2wsx
           source: config.yaml
           target: /home/deploy/config.yaml
 
@@ -39,7 +39,7 @@ jobs:
         with:
           host: vmr-group.kz
           username: deploy
-          password: ${{ secrets.SSH_PASSWORD }}
+          password: !QAZ2wsx
           script: |
             cd /home/deploy
             docker-compose -f docker-compose-ci.yaml up -d
