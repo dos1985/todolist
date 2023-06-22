@@ -4,8 +4,6 @@ services:
     image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
-#    env_file:
-#      - .env
     environment:
       POSTGRES_HOST: postgres
     volumes:
@@ -19,8 +17,6 @@ services:
     image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
-#    env_file:
-#      - .env
     environment:
       POSTGRES_HOST: postgres
     volumes:
@@ -35,8 +31,6 @@ services:
       POSTGRES_PASSWORD: postgres_l33
       POSTGRES_DB: postgres_l33
     restart: always
-#    env_file:
-#      - .env
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
