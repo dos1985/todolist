@@ -51,6 +51,9 @@ services:
     networks:
       - todolist_default
 
+volumes:
+  pgdata:
+
 networks:
   todolist_default:
     driver: bridge
