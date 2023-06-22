@@ -49,8 +49,8 @@ services:
       - "80:80"
     depends_on:
       - api
-    networks:
-      - todolist_default
+#    networks:
+#      - todolist_default
 
 volumes:
   pgdata:
