@@ -1,5 +1,5 @@
 database:
-  host: ["*"]
+  host: "*"
   port: 5432
   username: "postgres_l33"
   password: "postgres_l33"

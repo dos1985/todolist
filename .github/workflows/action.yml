@@ -26,9 +26,7 @@ jobs:
 
   deploy:
     name: Deploy Application
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -52,7 +50,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: docker-compose.yaml
-          target: /home/deploy/docker-compose-ci.yaml
+          target: /home/deploy/docker-compose.yaml
 
       - name: Copy configuration file to server
         uses: appleboy/scp-action@master
@@ -61,14 +59,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: config.yaml
-          target: /home/deploy/docker-compose-ci.yaml
+          target: /home/deploy/config.yaml
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.NEW_SUDO_PASSWORD }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd /home/deploy
-            docker-compose up -d
+            echo "${{ secrets.NEW_SUDO_PASSWORD }}" | sudo -S docker-compose up -d
