@@ -42,7 +42,7 @@ jobs:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "todolist/docker-compose-ci.yaml
+          source: docker-compose-ci.yaml
           target: /home/deploy/docker-compose-ci.yaml
 
       - name: Copy docker-compose.yaml to server
