@@ -14,7 +14,7 @@ services:
       - todolist_default
 
   migrations:
-    image: dossovmarlen/todolist:${{ github.run_id }}
+    image: dossovmarlen/todolist:$${{ github.run_id }}
     depends_on:
       - postgres
     environment:
