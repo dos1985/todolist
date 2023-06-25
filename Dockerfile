@@ -12,6 +12,7 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 # Копируем код приложения
 COPY . .
+COPY manage.py .
 # Определение порта
 EXPOSE 8000
 # Указываем команду, которая будет запущена командой docker run
