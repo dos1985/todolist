@@ -26,7 +26,7 @@ jobs:
 
   deploy:
     name: Deploy Application
-    needs: build_and_push
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
