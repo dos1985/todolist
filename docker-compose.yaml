@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
     volumes:
-      - ./manage.py:/app/manage.py
+      - ./:/app
     ports:
       - '8001:8000'
     networks:
@@ -20,7 +20,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
     volumes:
-      - ./manage.py:/app/manage.py
+      - ./:/app
     networks:
       - todolist_default
 
