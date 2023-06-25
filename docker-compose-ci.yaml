@@ -20,8 +20,8 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: vmr-group.kz
-          username: deploy
-          password: !QAZ2wsx
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.NEW_SUDO_PASSWORD }}
           source: docker-compose-ci.yaml
           target: /home/deploy/docker-compose-ci.yaml
 
@@ -38,8 +38,8 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: vmr-group.kz
-          username: deploy
-          password: !QAZ2wsx
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.NEW_SUDO_PASSWORD }}
           source: config.yaml
           target: /home/deploy/config.yaml
 
@@ -47,8 +47,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
-          username: deploy
-          password: !QAZ2wsx
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.NEW_SUDO_PASSWORD }}
           script: |
             cd /home/deploy
             docker-compose up -d
