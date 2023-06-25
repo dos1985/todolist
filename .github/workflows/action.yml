@@ -41,7 +41,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: docker-compose-ci.yaml
-          target: /home/deploy/docker-compose-ci.yaml
+          target: "todolist"
+          strip_comments: 1
 
       - name: Copy docker-compose.yaml to server
         uses: appleboy/scp-action@master
@@ -50,7 +51,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: docker-compose.yaml
-          target: /home/deploy/docker-compose.yaml
+          target: "todolist"
+          strip_comments: 1
 
       - name: Copy configuration file to server
         uses: appleboy/scp-action@master
@@ -59,7 +61,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: config.yaml
-          target: /home/deploy/config.yaml
+          target: "todolist"
+          strip_comments: 1
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
