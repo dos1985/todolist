@@ -50,6 +50,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            ccd /home/deploy/todolist
+            export SSH_USERNAME=${{ secrets.SSH_USERNAME }}
+            export SSH_PASSWORD=${{ secrets.SSH_PASSWORD }}
+            cd /home/deploy/todolist
             echo "${{ secrets.SSH_PASSWORD }}" | sudo -S docker-compose -f docker-compose-ci.yaml up -d
 
