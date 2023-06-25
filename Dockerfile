@@ -8,11 +8,9 @@ WORKDIR /app
 COPY requirements.txt .
 # Устанавливаем через pip зависимости
 RUN pip install --upgrade pip
-
 RUN pip install -r requirements.txt
 # Копируем код приложения
-COPY . app
-
+COPY . .
 # Определение порта
 EXPOSE 8000
 # Указываем команду, которая будет запущена командой docker run
