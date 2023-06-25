@@ -47,11 +47,11 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          username: "${SSH_USERNAME}"
+          password: "${SSH_PASSWORD}"
           script: |
             export SSH_USERNAME=${{ secrets.SSH_USERNAME }}
             export SSH_PASSWORD=${{ secrets.SSH_PASSWORD }}
             cd /home/deploy/todolist
-            echo "${{ secrets.SSH_PASSWORD }}" | sudo -S docker-compose -f docker-compose-ci.yaml up -d
+            echo "${SSH_PASSWORD}" | sudo -S docker-compose -f docker-compose-ci.yaml up -d
 
