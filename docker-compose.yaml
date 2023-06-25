@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
     volumes:
-      - ~/todolist/manage.py:/app/manage.py
+      - D:\Skypro\Pycharm\todolist\manage.py:/app/manage.py
     ports:
       - '8001:8000'
     networks:
@@ -20,7 +20,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
     volumes:
-      - ~/todolist/manage.py:/app/manage.py
+      - D:\Skypro\Pycharm\todolist\manage.py:/app/manage.py
     networks:
       - todolist_default
 
