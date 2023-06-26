@@ -37,6 +37,8 @@ jobs:
         run: |
           cat docker-compose-ci.yaml | envsubst > todolist/docker-compose.yaml
           cp .env todolist/.env
+          mv todolist/.env todolist/.env-ci
+          ls -la todolist
 
       - name: Copy files to server
         uses: appleboy/scp-action@master
