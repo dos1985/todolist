@@ -42,19 +42,6 @@ jobs:
           target: "todolist"
           strip_components: 1
 
-      - name: Create and populate .env file on server
-        uses: appleboy/ssh-action@master
-        with:
-          host: vmr-group.kz
-          username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
-            echo "DB_HOST=postgres_l33" >> /home/deploy/todolist/.env
-            echo "DB_PORT=5432" >> /home/deploy/todolist/.env
-            echo "DB_USER=postgres_l33" >> /home/deploy/todolist/.env
-            echo "DB_PASSWORD=postgres_l33" >> /home/deploy/todolist/.env
-            echo "ALLOWED_HOSTS=["*"]" >> /home/deploy/todolist/.env
-
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
         with:
