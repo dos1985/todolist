@@ -33,9 +33,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
-
+      - name: Render config files
+        run: |
+          mkdir todolist
+          cat docker-compose-ci.yaml | envsubst > todolist/docker-compose.yaml
+          cp .env todolist/.env
 
       - name: Copy files to server
         uses: appleboy/scp-action@master
