@@ -1,34 +1,60 @@
-deploy:
-  name: Deploy Application
-  needs: build-and-push
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+name: Build and Deploy Docker Image
 
-    - name: Copy files to server
-      uses: appleboy/scp-action@master
-      with:
-        host: vmr-group.kz
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        source: |
-          docker-compose-ci.yaml
-          docker-compose.yaml
-          config.yaml
-          .env
-        target: "todolist"
-        strip_comments: 1
+on:
+  push:
+    branches:
+      - main
 
-    - name: Run docker-compose up on server
-      uses: appleboy/ssh-action@master
-      with:
-        host: vmr-group.kz
-        username: ${{ secrets.SSH_USERNAME }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        script: |
-          cd /home/deploy/todolist
-          docker-compose up -d
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t dossovmarlen/todolist:${{ github.run_id }} .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image to Docker Hub
+        run: docker push dossovmarlen/todolist:${{ github.run_id }}
+
+  deploy:
+    name: Deploy Application
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: vmr-group.kz
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: |
+            docker-compose-ci.yaml
+            docker-compose.yaml
+            config.yaml
+            .env
+          target: "todolist"
+          strip_comments: 1
+
+      - name: Run docker-compose up on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: vmr-group.kz
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /home/deploy/todolist
+            docker-compose up -d
 
 
 
