@@ -6,6 +6,9 @@ services:
       - postgres
     environment:
       POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres_l33
+      POSTGRES_PASSWORD: postgres_l33
+      POSTGRES_DB: postgres_l33
     ports:
       - '8001:8000'
     networks:
