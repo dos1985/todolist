@@ -35,7 +35,6 @@ jobs:
 
       - name: Render config files
         run: |
-          mkdir todolist
           cat docker-compose-ci.yaml | envsubst > todolist/docker-compose.yaml
           cp .env todolist/.env
 
