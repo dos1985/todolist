@@ -39,9 +39,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: |
-            D:/Skypro/Pycharm/todolist/docker-compose.yaml
-            D:/Skypro/Pycharm/todolist/docker-compose-ci.yaml
-            D:/Skypro/Pycharm/todolist/config.yaml
+            docker-compose.yaml
+            docker-compose-ci.yaml
+            config.yaml
           target: "todolist"
           strip_components: 3
 
