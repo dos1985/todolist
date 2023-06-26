@@ -38,9 +38,12 @@ jobs:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "todolist/docker-compose.yaml,todolist/docker-compose-ci.yaml,todolist/config.yaml"
+          source: |
+            D:/Skypro/Pycharm/todolist/docker-compose.yaml
+            D:/Skypro/Pycharm/todolist/docker-compose-ci.yaml
+            D:/Skypro/Pycharm/todolist/config.yaml
           target: "todolist"
-          strip_components: 1
+          strip_components: 3
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
