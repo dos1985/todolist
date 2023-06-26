@@ -6,11 +6,10 @@ services:
       - postgres
     environment:
       POSTGRES_HOST: postgres
-      POSTGRES_USER: postgres_l33
-      POSTGRES_PASSWORD: postgres_l33
-      POSTGRES_DB: postgres_l33
     ports:
       - '8001:8000'
+    env_file:
+      - ./.env
     networks:
       - todolist_default
 
@@ -20,6 +19,8 @@ services:
       - postgres
     environment:
       POSTGRES_HOST: postgres
+    env_file:
+      - ./.env
     networks:
       - todolist_default
 
@@ -30,6 +31,8 @@ services:
       POSTGRES_PASSWORD: postgres_l33
       POSTGRES_DB: postgres_l33
     restart: always
+    env_file:
+      - ./.env
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
