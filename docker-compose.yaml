@@ -19,8 +19,8 @@ services:
       - postgres
     environment:
       POSTGRES_HOST: postgres
-      env_file:
-      - ./.env
+    env_file:
+    - ./.env
     networks:
       - todolist_default
 
