@@ -67,14 +67,14 @@ jobs:
           strip_comments: 1
 
       - name: Copy env file to server
-        uses: appleboy/scp-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: vmr-group.kz
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: .env
-          target: "todolist"
-          strip_comments: 1
+          script: |
+            scp -o StrictHostKeyChecking=no .env ${{ secrets.SSH_USERNAME }}@vmr-group.kz:/home/deploy/todolist/.env
+
 
       - name: Run docker-compose up on server
         uses: appleboy/ssh-action@master
