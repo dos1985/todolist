@@ -10,8 +10,6 @@ services:
       - '8000:8000'
     env_file:
       - ./.env
-    volumes:
-      - .:/app
     networks:
       - todolist_default
 
@@ -24,8 +22,6 @@ services:
     env_file:
       - ./.env
     command: sh -c "python manage.py migrate"
-    volumes:
-      - .:/app
     networks:
       - todolist_default
 
@@ -52,8 +48,7 @@ services:
     depends_on:
       - api
     volumes:
-       - .:/app
-##      - ./nginx.conf:/etc/ngnix/conf.d/default.conf
+      - ./nginx.conf:/etc/ngnix/conf.d/default.conf
     networks:
       - todolist_default
 
