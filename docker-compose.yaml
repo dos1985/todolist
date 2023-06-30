@@ -12,6 +12,7 @@ services:
       - ./.env
     volumes:
       - .:/app
+    command: sh -c "python manage.py runserver"
     networks:
       - todolist_default
 
