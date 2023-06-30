@@ -2,7 +2,7 @@ version: '3.9'
 services:
   api:
     build:
-    image: dossovmarlen/todolist:${{ github.run_id }}
+    image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
     environment:
@@ -18,7 +18,7 @@ services:
 
   migrations:
     build:
-    image: dossovmarlen/todolist:${{ github.run_id }}
+    image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
     environment:

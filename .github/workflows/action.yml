@@ -69,5 +69,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
+            export IMAGE_TAG=${{ github.run_id }}
             cd /home/deploy/todolist
             docker-compose up -d
