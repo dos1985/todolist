@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   api:
-    image: dossovmarlen/todolist:${IMAGE_TAG}
+    image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
     environment:
@@ -16,7 +16,7 @@ services:
       - todolist_default
 
   migrations:
-    image: dossovmarlen/todolist:${IMAGE_TAG}
+    image: dossovmarlen/todolist:latest
     depends_on:
       - postgres
     environment:
@@ -51,9 +51,9 @@ services:
       - "80:80"
     depends_on:
       - api
-    volumes:
-       - .:/app
-#      - ./nginx.conf:/etc/ngnix/conf.d/default.conf
+#    volumes:
+#       - .:/app
+##      - ./nginx.conf:/etc/ngnix/conf.d/default.conf
     networks:
       - todolist_default
 
