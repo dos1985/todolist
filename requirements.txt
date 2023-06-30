@@ -12,3 +12,6 @@ tzdata==2023.3
 wheel==0.40.0
 django-phonenumber-field==7.1.0
 psycopg2-binary==2.9.6
+djangorestframework==3.14.0
+social-auth-app-django==5.2.0
+social-auth-core==4.4.2
