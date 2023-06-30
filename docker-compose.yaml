@@ -51,7 +51,8 @@ services:
       - "80:80"
     depends_on:
       - api
-#    volumes:
+    volumes:
+       - .:/app
 #      - ./nginx.conf:/etc/ngnix/conf.d/default.conf
     networks:
       - todolist_default
