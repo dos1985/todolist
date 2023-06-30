@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   api:
-    image: dossovmarlen/todolist:latest
+    image: dossovmarlen/todolist:${{ github.run_id }
     depends_on:
       - postgres
     environment:
@@ -14,7 +14,7 @@ services:
       - todolist_default
 
   migrations:
-    image: dossovmarlen/todolist:latest
+    image: dossovmarlen/todolist:${{ github.run_id }
     depends_on:
       - postgres
     environment:
