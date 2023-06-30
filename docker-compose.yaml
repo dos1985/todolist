@@ -1,7 +1,6 @@
 version: '3.9'
 services:
   api:
-    build:
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
@@ -17,7 +16,6 @@ services:
       - todolist_default
 
   migrations:
-    build:
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
