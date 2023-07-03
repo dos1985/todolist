@@ -5,7 +5,7 @@ charset-normalizer==3.1.0
 cryptography==41.0.1
 defusedxml==0.7.1
 dj-config-url==0.1.1
-Django==4.0.1
+Django==3.2.19
 django-environ==0.10.0
 django-filter
 django-phonenumber-field==7.1.0
@@ -29,4 +29,4 @@ sqlparse==0.4.4
 typing_extensions==4.6.3
 tzdata==2023.3
 urllib3==2.0.3
-django-utils-six==2.0
+
