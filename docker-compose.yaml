@@ -10,8 +10,8 @@ services:
       - '8000:8000'
     env_file:
       - ./.env
-#    volumes:
-#      - .:/app
+    volumes:
+      - .:/app
     networks:
       - todolist_default
 
@@ -23,8 +23,8 @@ services:
       POSTGRES_HOST: postgres
     env_file:
       - ./.env
-#    volumes:
-#      - .:/app
+    volumes:
+      - .:/app
     command: sh -c "python manage.py migrate"
     networks:
       - todolist_default
