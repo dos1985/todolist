@@ -71,4 +71,5 @@ jobs:
           script: |
             export IMAGE_TAG=${{ github.run_id }}
             cd /home/deploy/todolist
+            docker-compose down --rmi local -v
             docker-compose up -d
