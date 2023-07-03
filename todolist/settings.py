@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "social_django",
     "rest_framework",
     "core",
+    "goals",
+    "django_filters"
+
 ]
 
 MIDDLEWARE = [
@@ -164,3 +167,5 @@ SOCIAL_AUTH_VK_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/profile'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/logged-in/'

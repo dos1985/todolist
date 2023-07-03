@@ -8,5 +8,6 @@ urlpatterns = [
     path('core/profile', ProfileView.as_view()),
     path('core/update_password', UpdatePasswordView.as_view()),
 
+
 ]
 

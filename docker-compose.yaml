@@ -10,6 +10,8 @@ services:
       - '8000:8000'
     env_file:
       - ./.env
+    volumes:
+      - .:/app
     networks:
       - todolist_default
 
@@ -21,6 +23,8 @@ services:
       POSTGRES_HOST: postgres
     env_file:
       - ./.env
+    volumes:
+      - .:/app
     command: sh -c "python manage.py migrate"
     networks:
       - todolist_default
@@ -42,7 +46,7 @@ services:
       - todolist_default
 
   frontend:
-    image: sermalenk/skypro-front:lesson-35
+    image: sermalenk/skypro-front:lesson-36
     ports:
       - "80:80"
     depends_on:
