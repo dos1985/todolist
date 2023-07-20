@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "core",
     "goals",
     "django_filters"
-
 ]
 
 MIDDLEWARE = [
@@ -78,7 +77,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "todolist.wsgi.application"
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 database_url = os.environ.get('DATABASE_URL')

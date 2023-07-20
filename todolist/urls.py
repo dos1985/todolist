@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('oauth/', include("social_django.urls", namespace="social")),
     path("", include("goals.urls")),
+    # path("", include(("boards.urls"))),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
