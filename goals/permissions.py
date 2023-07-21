@@ -12,6 +12,14 @@ class BoardPermissions(permissions.BasePermission):
             return BoardParticipant.objects.filter(
                 user=request.user, board=obj
             ).exists()
+        # Проверяем, что пользователь является участником доски
+        is_participant = BoardParticipant.objects.filter(
+            user=request.user, board=obj
+        ).exists()
+
+        if request.method in permissions.SAFE_METHODS:
+            # Если это безопасный метод (GET, HEAD, OPTIONS), разрешаем доступ, если пользователь является участником доски
+            return is_participant
 
         is_owner = BoardParticipant.objects.filter(
             user=request.user, board=obj, role=BoardParticipant.Role.owner
@@ -28,18 +36,18 @@ class GoalPermission(permissions.BasePermission):
             return False
 
         if request.method in permissions.SAFE_METHODS:
+            # Если это безопасный метод (GET, HEAD, OPTIONS), разрешаем доступ, если пользователь является участником доски, к которой принадлежит цель
             return BoardParticipant.objects.filter(
                 user=request.user,
                 board=obj.category.board
             ).exists()
 
+        # Если это не безопасный метод (POST, PUT, PATCH, DELETE), проверяем, является ли пользователь владельцем или писателем доски, к которой принадлежит цель
         return BoardParticipant.objects.filter(
             user=request.user,
             board=obj.category.board,
             role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer]
         ).exists()
-
-
 
 class GoalCategoryPermission(permissions.BasePermission):
     def has_permission(self, request, view):

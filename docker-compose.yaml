@@ -1,9 +1,6 @@
 version: '3.9'
 services:
   api:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
@@ -19,9 +16,6 @@ services:
       - todolist_default
 
   migrations:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
