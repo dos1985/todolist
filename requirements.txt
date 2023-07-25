@@ -29,5 +29,16 @@ sqlparse==0.4.4
 typing_extensions==4.6.3
 tzdata==2023.3
 urllib3==2.0.3
+dataclasses
+typing-extensions
+aiogram==2.25.1
+marshmallow==3.20.1
+python-telegram-bot==20.4
+pydantic_core==2.3.0
+marshmallow-dataclass==8.5.14
+
+
+
+
 
 

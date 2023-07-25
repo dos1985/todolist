@@ -1,6 +1,10 @@
 version: '3.9'
 services:
   api:
+#    build:
+#       context: .
+#       dockerfile: Dockerfile
+    restart: always
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
@@ -10,12 +14,30 @@ services:
       - '8000:8000'
     env_file:
       - ./.env
-#    volumes:
-#      - .:/app
+    volumes:
+      - .:/app
+    networks:
+      - todolist_default
+
+  bot:
+#    build:
+#       context: .
+#       dockerfile: Dockerfile
+    image: dossovmarlen/todolist:${IMAGE_TAG}
+    restart: always
+    env_file:
+      - ./.env
+    command: sh -c "python manage.py runbot"
+    depends_on:
+       - postgres
+       - migrations
     networks:
       - todolist_default
 
   migrations:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
     image: dossovmarlen/todolist:${IMAGE_TAG}
     depends_on:
       - postgres
@@ -23,8 +45,8 @@ services:
       POSTGRES_HOST: postgres
     env_file:
       - ./.env
-#    volumes:
-#      - .:/app
+    volumes:
+      - .:/app
     command: sh -c "python manage.py migrate"
     networks:
       - todolist_default
@@ -46,7 +68,7 @@ services:
       - todolist_default
 
   frontend:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - "80:80"
     depends_on:

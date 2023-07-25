@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "core",
     "goals",
-    "django_filters"
+    "django_filters",
+    "bot",
 ]
 
 MIDDLEWARE = [
@@ -174,3 +175,4 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/logged-in/'
+BOT_TOKEN = os.getenv('BOT_TOKEN')
