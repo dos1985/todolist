@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from dataclasses import field
 
 import marshmallow_dataclass
@@ -6,13 +6,11 @@ from marshmallow_dataclass import dataclass
 from marshmallow import EXCLUDE
 
 
-
 @dataclass
 class MessageFrom:
     id: int
     is_bot: bool
     first_name: str | None
-    # last_name: str | None
     username: str | None
 
     class Meta:
@@ -24,13 +22,13 @@ class MessageChat:
     id: int
     first_name: str | None
     username: str | None
-    # last_name: str | None
     type: str
     title: str | None
 
 
     class Meta:
         unknown = EXCLUDE
+
 
 @dataclass
 class Message:
@@ -40,10 +38,8 @@ class Message:
     date: int
     text: str | None
 
-
     class Meta:
         unknown = EXCLUDE
-
 
 
 @dataclass
@@ -70,7 +66,7 @@ class SendMessageResponse:
 @dataclass
 class UpdateObj:
     update_id: int
-    message: Message
+    message: Optional[Message] = None
 
     class Meta:
         unknown = EXCLUDE
@@ -85,48 +81,6 @@ class GetUpdatesResponse:
         unknown = EXCLUDE
 
 
-
-
 GET_UPDATES_SCHEMA = marshmallow_dataclass.class_schema(GetUpdatesResponse)()
 SEND_MESSAGE_RESPONSE_SCHEMA = marshmallow_dataclass.class_schema(SendMessageResponse)()
 
-
-# class Chat:
-#     def __init__(self, id: int, first_name: str = None, username: str = None):
-#         self.id = id
-#         self.first_name = first_name
-#         self.username = username
-#
-#
-# class Message:
-#     def __init__(self, chat: Chat, text: str = None):
-#         self.chat = chat
-#         self.text = text
-#
-#     class Meta:
-#         unknown = EXCLUDE
-#
-#
-# class UpdateObj:
-#     def __init__(self, update_id: int, message: Message = None, edited_message: Message = None):
-#         self.update_id = update_id
-#         self.message = message
-#         self.edited_message = edited_message
-#
-#
-# class SendMessageResponse:
-#     def __init__(self, ok: bool, result: Message):
-#         self.ok = ok
-#         self.result = result
-#
-#     class Meta:
-#         unknown = EXCLUDE
-#
-#
-# class GetUpdatesResponse:
-#     def __init__(self, ok: bool, result: list[UpdateObj]):
-#         self.ok = ok
-#         self.result = result
-#
-#     class Meta:
-#         unknown = EXCLUDE

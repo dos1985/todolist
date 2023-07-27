@@ -1,14 +1,14 @@
 import random
 import string
-
 from django.db import models
 from core.models import User
+from goals.models import DatesModelMixin
 
 # Генерируемое случайное слово для verification_code
 CODE_VOCABULARY = string.ascii_letters + string.digits
 
 
-class TgUser(models.Model):
+class TgUser(DatesModelMixin):
     """ Модель для хранения данных пользователей Telegram """
     chat_id = models.BigIntegerField(verbose_name='Чат ID', default=0)   # Уникальный идентификатор чата в Telegram
     user_id = models.BigIntegerField(verbose_name="User ID", unique=True, default=0)     # Уникальный идентификатор пользователя в Telegram
@@ -20,18 +20,16 @@ class TgUser(models.Model):
         """Метод для установки нового кода подтверждения"""
         code = "".join([random.choice(CODE_VOCABULARY) for _ in range(12)])
         self.verification_code = code
+        self.save()
+        return code
 
-        # Убедимся, что связанный пользователь сохраняется правильно после верификации
-        if self.related_user:
+    def verify_user(self, verification_code):
+        """Метод для проверки и обновления статуса верификации пользователя."""
+        if verification_code == self.verification_code:
+            self.verification_code = None
             self.save()
-        else:
-            # Если связанного пользователя нет, то создаем и сохраняем его здесь
-            # Замените 'User' на вашу модель пользователя, которая связывается с TgUser
-            user = User.objects.create(username=f"Telegram_User_{self.user_id}")
-            self.related_user = user
-            self.save()
-
-        return code  # Возвращаем сгенерированный код
+            return True
+        return False
 
     def __str__(self):
         return f'Telegram User: {self.user_id}'
@@ -41,11 +39,5 @@ class TgUser(models.Model):
         verbose_name_plural = "Телеграм Пользователи"
 
 
-# class TgUser(models.Model):
-#     telegram_chat_id = models.CharField(max_length=100)
-#     telegram_user_id = models.CharField(max_length=100)
-#     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-#
-#     def __str__(self):
-#         return f"Telegram User ID: {self.telegram_user_id}"
+
 
