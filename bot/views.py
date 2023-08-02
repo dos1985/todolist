@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
-
+from requests.exceptions import RequestException
 from bot.models import TgUser
 from bot.serializers import TgUserSerializer
 from bot.tg.client import TgClient
@@ -39,6 +39,11 @@ class VerificationView(GenericAPIView):
         tg_user.related_user = request.user
         tg_user.save()
 
-        TgClient(settings.BOT_TOKEN).send_message(tg_user.chat_id, 'Проверка завершена')
+        try:
+            TgClient(settings.BOT_TOKEN).send_message(tg_user.chat_id, 'Проверка завершена')
+        except RequestException as e:
+            print(f"Error sending message: {e}")
+            return Response({'error': f'Произошла ошибка при отправке проверочного сообщения: {e}'},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(TgUserSerializer(tg_user).data)

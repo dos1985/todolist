@@ -36,6 +36,10 @@ marshmallow==3.20.1
 python-telegram-bot==20.4
 pydantic_core==2.3.0
 marshmallow-dataclass==8.5.14
+pytest==7.4.0
+factory-boy==3.3.0
+
+
 
 
 

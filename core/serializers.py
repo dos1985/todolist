@@ -22,12 +22,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
             }
 
     def validate(self, attrs):
+        # Проверяем, что пароли совпадают и валидны
         if attrs['password'] != attrs['password_repeat']:
             raise serializers.ValidationError({"password": "Password fields didn't match."})
         validate_password(attrs['password'])
         return attrs
 
     def create(self, validated_data):
+        # Создаем нового пользователя с использованием валидированных данных.
         user = User.objects.create(
             username=validated_data['username'],
             email=validated_data['email']
@@ -47,6 +49,7 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ['username', 'password']
 
     def create(self, validated_data):
+        # Аутентификация пользователя
         user = authenticate(
             username=validated_data['username'],
             password=validated_data['password']
@@ -73,12 +76,14 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
         fields = ['user', 'old_password', 'new_password']
 
     def validate(self, attrs):
+        # Проверка старого пароля
         user = attrs['user']
         if not user.check_password(attrs['old_password']):
             raise serializers.ValidationError({'old_password': 'incorrect password'})
         return attrs
 
     def update(self, instance, validated_data):
+        # Обновление пароля пользователя
         instance.password = make_password(validated_data['new_password'])
         instance.save()
         return instance

@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from core.models import User
 
+
 class DatesModelMixin(models.Model):
     class Meta:
         abstract = True  # Помечаем класс как абстрактный – для него не будет таблички в БД

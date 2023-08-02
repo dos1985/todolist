@@ -15,12 +15,17 @@ from goals.serializers import GoalCreateSerializer, GoalCategorySerializer, Goal
 
 
 class GoalCategoryCreateView(CreateAPIView):
-    model = GoalCategory
+    """Представление для создания категории цели.
+    Предоставляет POST метод для создания новой категории цели.
+    """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = GoalCategoryCreateSerializer
 
 
 class GoalCategoryListView(ListAPIView):
+    """Представление для просмотра списка категорий целей.
+    Поддерживает GET запросы для просмотра всех категорий целей.
+    """
     permission_classes = [permissions.IsAuthenticated, GoalCategoryPermission]
     serializer_class = GoalCategorySerializer
     pagination_class = LimitOffsetPagination
@@ -42,9 +47,16 @@ class GoalCategoryListView(ListAPIView):
 
 
 class GoalCategoryView(RetrieveUpdateDestroyAPIView):
+    """Представление для получения, обновления и удаления категории цели.
+    Поддерживает GET, PUT, PATCH и DELETE запросы для работы с категорией цели.
+    """
     model = GoalCategory
     serializer_class = GoalCategorySerializer
     permission_classes = [permissions.IsAuthenticated, GoalCategoryPermission]
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return GoalCategory.objects.filter(Q(user=user) | Q(board__participants__user=user), is_deleted=False)
 
     def get_queryset(self):
         user = self.request.user
@@ -60,12 +72,17 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
 
 
 class GoalCreateView(CreateAPIView):
-    queryset = Goal.objects.all()
+    """Представление для создания цели.
+    Поддерживает POST запросы для создания новой цели.
+    """
     permission_classes = [permissions.IsAuthenticated] #GoalCategoryPermission,  GoalPermission
     serializer_class = GoalCreateSerializer
 
 
 class GoalListView(ListAPIView):
+    """Представление для просмотра списка целей.
+    Поддерживает GET запросы для просмотра всех целей.
+    """
     model = Goal
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = GoalSerializer
@@ -87,12 +104,14 @@ class GoalListView(ListAPIView):
 
 
 class GoalView(RetrieveUpdateDestroyAPIView):
+    """Представление для получения, обновления и удаления цели.
+    Поддерживает GET, PUT, PATCH и DELETE запросы для работы с целью.
+    """
     serializer_class = GoalSerializer
     permission_classes = [permissions.IsAuthenticated, GoalPermission]
 
     def get_queryset(self):
         return Goal.objects.filter(category__board__participants__user=self.request.user)
-
 
     def perform_destroy(self, instance):
         with transaction.atomic():
@@ -103,14 +122,18 @@ class GoalView(RetrieveUpdateDestroyAPIView):
             instance.save()
 
 
-
 class GoalCommentCreateView(CreateAPIView):
-    model = GoalComment
+    """Представление для создания комментария к цели.
+    Поддерживает POST запросы для создания нового комментария к цели.
+    """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = GoalCommentCreateSerializer
 
 
 class GoalCommentListView(ListAPIView):
+    """Представление для просмотра списка комментариев к цели.
+    Поддерживает GET запросы для просмотра всех комментариев к цели.
+    """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = GoalCommentSerializer
     pagination_class = LimitOffsetPagination
@@ -125,7 +148,11 @@ class GoalCommentListView(ListAPIView):
     def get_queryset(self):
         return GoalComment.objects.filter(goal__category__board__participants__user=self.request.user)
 
+
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
+    """Представление для получения, обновления и удаления комментария к цели.
+    Поддерживает GET, PUT, PATCH и DELETE запросы для работы с комментарием к цели.
+    """
     serializer_class = GoalCommentSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -134,12 +161,17 @@ class GoalCommentView(RetrieveUpdateDestroyAPIView):
 
 
 class BoardCreateView(CreateAPIView):
-    model = Board
+    """Представление для создания доски.
+    Поддерживает POST запросы для создания новой доски.
+    """
     serializer_class = BoardCreateSerializer
     permission_classes = [permissions.IsAuthenticated]
 
 
 class BoardListAPIView(ListAPIView):
+    """Представление для просмотра списка досок.
+    Поддерживает GET запросы для просмотра всех досок.
+    """
     serializer_class = BoardListSerializer
     permission_classes = [permissions.IsAuthenticated, BoardPermissions]
     filter_backends = [filters.OrderingFilter]
@@ -150,8 +182,10 @@ class BoardListAPIView(ListAPIView):
         return Board.objects.filter(participants__user=user, is_deleted=False)
 
 
-
 class BoardView(RetrieveUpdateDestroyAPIView):
+    """Представление для получения, обновления и удаления доски.
+    Поддерживает GET, PUT, PATCH и DELETE запросы для работы с доской.
+    """
     permission_classes = [permissions.IsAuthenticated, BoardPermissions]
     serializer_class = BoardSerializer
 

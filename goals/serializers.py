@@ -7,6 +7,7 @@ from core.serializers import UserSerializer
 
 
 class GoalCategoryCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания категории цели."""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -15,11 +16,13 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
+        """Создаем категорию цели и назначаем ее текущему пользователю."""
         user = validated_data.pop("user")
         category = GoalCategory.objects.create(user=user, **validated_data)
         return category
 
     def validate(self, attrs):
+        """Проверка: текущий пользователь должен быть владельцем доски."""
         user = self.context['request'].user
         is_owner = BoardParticipant.objects.filter(
             user=user,
@@ -33,9 +36,8 @@ class GoalCategoryCreateSerializer(serializers.ModelSerializer):
 
 
 class GoalCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания целей."""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    # board = serializers.PrimaryKeyRelatedField(queryset=Board.objects.all())
-
 
     class Meta:
         model = Goal
@@ -43,6 +45,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def validate_category(self, value):
+        """Валидация: проверка что пользователь является владельцем или автором доски."""
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
         if not BoardParticipant.objects.filter(
@@ -55,6 +58,7 @@ class GoalCreateSerializer(serializers.ModelSerializer):
 
 
 class GoalCategorySerializer(serializers.ModelSerializer):
+    """Сериализатор для представления категории цели."""
     user = UserSerializer(read_only=True)
     board = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -65,6 +69,7 @@ class GoalCategorySerializer(serializers.ModelSerializer):
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления цели."""
     user = UserSerializer(read_only=True)
 
     class Meta:
@@ -74,6 +79,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class GoalCommentCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания комментариев к цели."""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -83,6 +89,7 @@ class GoalCommentCreateSerializer(serializers.ModelSerializer):
 
 
 class GoalCommentSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления комментария к цели."""
     user = UserSerializer(read_only=True)
 
     class Meta:
@@ -92,6 +99,7 @@ class GoalCommentSerializer(serializers.ModelSerializer):
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания доски."""
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
@@ -100,6 +108,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
+        """Создаем доску и добавляем текущего пользователя в качестве владельца."""
         user = validated_data.pop("user")
         board = Board.objects.create(**validated_data)
         board.participants.create(user=user, role=BoardParticipant.Role.owner)
@@ -107,6 +116,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 
 class BoardParticipantSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления участника доски."""
     role = serializers.ChoiceField(
         required=True, choices=BoardParticipant.Role.choices
     )
@@ -121,6 +131,7 @@ class BoardParticipantSerializer(serializers.ModelSerializer):
 
 
 class BoardSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления доски."""
     participants = BoardParticipantSerializer(many=True)
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
@@ -131,11 +142,13 @@ class BoardSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
+        """Обновляем информацию доски и участников."""
         owner = validated_data.pop("user")
         new_participants = validated_data.pop("participants")
         new_by_id = {part["user"].id: part for part in new_participants}
 
         old_participants = instance.participants.exclude(user=owner)
+        print("Old participants before processing: ", old_participants)
         with transaction.atomic():
             for old_participant in old_participants:
                 if old_participant.user_id not in new_by_id:
@@ -163,6 +176,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
 
 class BoardListSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления списка досок."""
     class Meta:
         model = Board
         fields = "__all__"
